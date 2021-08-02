@@ -1,0 +1,29 @@
+FROM libavif as builder
+
+FROM ubuntu:20.04
+
+COPY --from=builder  \
+  [ \
+    "/lib/aarch64-linux-gnu/libaom.so.3", \
+    "/lib/aarch64-linux-gnu/libavif.so.12", \
+    "/lib/aarch64-linux-gnu/libdav1d.so.5", \
+    "/lib/aarch64-linux-gnu/libgav1.so.0", \
+    "/lib/aarch64-linux-gnu/libgcc_s.so.1", \
+    "/lib/aarch64-linux-gnu/libjpeg.so.8", \
+    "/lib/aarch64-linux-gnu/libpng16.so.16", \
+    "/lib/aarch64-linux-gnu/" \
+  ]
+
+COPY --from=builder /lib/librav1e.so.0 /lib/
+
+COPY --from=builder \
+  [ \
+    "/usr/bin/aomenc", \
+    "/usr/bin/aomdec", \
+    "/usr/bin/dav1d", \
+    "/usr/bin/gav1_decode", \
+    "/usr/bin/avifenc", \
+    "/usr/bin/avifdec", \
+    "/usr/bin/" \
+  ]
+
